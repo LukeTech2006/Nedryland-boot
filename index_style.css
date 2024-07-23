@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'caladea-bold';
+    src: url('Caladea-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'texgyreschola-bold';
+    src: url('texgyreschola-bold.otf');
+}
+
+body {
+    cursor: url(left-pointer.cur), default;
+}
