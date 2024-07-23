@@ -8,21 +8,35 @@ function retranslate_coords(x_mod, y_mod, scale, w, h) {
     var x = (x_mod / scale) - (((w - (1280 * scale)) / 2) / scale);
     var y = (y_mod / scale) - (((h - (1024 * scale)) / 2) / scale);
     return [x, y];
-}
+};
 
 function sleep(milliseconds) {
     var start = new Date().getTime();
     for (var i = 0; i < 1e7; i++) {
-        if ((new Date().getTime() - start) > milliseconds){
+        if ((new Date().getTime() - start) > milliseconds) {
             break;
-        }
-    }
-}
+        };
+    };
+};
 
 function isInRect(x, y, rect_x, rect_y, rect_width, rect_height) {
     return (rect_x <= x) && (rect_x + rect_width >= x) &&
            (rect_y <= y) && (rect_y + rect_height >= y);
-  }
+};
+
+function prom(canvas, ctx) {
+    var w = canvas.width; var h = canvas.height;
+    var scale_h = w / 1280;
+    var scale_v = h / 1024;
+    var scale = Math.min(scale_v, scale_h);
+
+    var splash_img = new Image();
+    splash_img.src = "indigo.png";
+    splash_img.onload = function(){
+        var t = translate_coords(0,0,scale,w,h);
+        ctx.drawImage(splash_img,0,0,splash_img.width,splash_img.height,t[0],t[1],splash_img.width*scale,splash_img.height*scale);
+    };
+};
 
 window.onload = function() {
     var canvas = document.getElementById("mycanvas");
@@ -86,21 +100,13 @@ window.onload = function() {
                     ctx.drawImage(start_maint_img,0,0,start_maint_img.width,start_maint_img.height,t[0],t[1],start_maint_img.width*scale,start_maint_img.height*scale);
                 };
 
-                clearTimeout(killTimer);
-                clearInterval(spinner_icon);
+                setTimeout(function () {
+                    clearTimeout(killTimer);
+                    clearInterval(spinner_icon);
+                    canvas.onmousedown = function () {};
+                    prom(canvas, ctx);
+                }, 100);
             };
         };
-
-        canvas.onmouseup = function(evt) {
-            var start_maint_img = new Image();
-            start_maint_img.src = "stop_maint.png";
-            start_maint_img.onload = function(){
-                var t = translate_coords(676,357,scale,w,h);
-                ctx.drawImage(start_maint_img,0,0,start_maint_img.width,start_maint_img.height,t[0],t[1],start_maint_img.width*scale,start_maint_img.height*scale);
-            };
-        };
-
     }, 2000);
-
-    //clearInterval(spinner_icon);
 };
