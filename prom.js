@@ -19,6 +19,10 @@ function sleep(milliseconds) {
     };
 };
 
+function getRandomNumber(min, max) {
+    return Math.random() * (max - min) + min
+}; 
+
 function isInRect(x, y, rect_x, rect_y, rect_width, rect_height) {
     return (rect_x <= x) && (rect_x + rect_width >= x) &&
            (rect_y <= y) && (rect_y + rect_height >= y);
@@ -83,7 +87,7 @@ window.onload = function() {
 
         var killTimer = setTimeout(function () {
             window.location.replace("https://jurassicpark.systems/")
-        }, 5000);
+        }, getRandomNumber(4500, 8000));
 
         canvas.onmousedown = function(evt) {
             var t = translate_coords(676,357);
